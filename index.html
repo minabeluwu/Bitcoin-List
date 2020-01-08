@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Bitcoin_3</title>
+
+	<meta charset="utf-8">
+	<link rel="stylesheet" type="text/css" href="style.css">
+</head>
+<body>
+	<header class="header">
+		<h1 class="header-title">Bitcoin</h1>
+	</header>
+
+	<section class="section">
+		<h2 class="section-title">Listados</h2>
+
+		<article class="article" id="bitcoinList">
+			<ul class="article-list">
+				<li class="article-itemTitle">Time</li>
+				<li class="article-itemTitle">USD</li>
+				<li class="article-itemTitle">EUR</li>
+				<li class="article-itemTitle">BPS</li>
+			</ul>
+
+		</article>
+
+		<button id="actualizar" class="boton">Actualizar</button>
+	</section>
+
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+	<script>
+
+	var elementoAnterior;
+
+	$("#actualizar").click(function() {
+
+ 		$.ajax('https://api.coindesk.com/v1/bpi/currentprice.json', 
+			{
+				type:"GET",
+			    dataType: 'json', // type of response data
+			    timeout: 500,     // timeout milliseconds
+			    success: function (data) {   // success callback function
+			    	console.log(data);
+			    	console.log(elementoAnterior);
+			    	// no existe el elemento
+			   		if(elementoAnterior === undefined) {
+
+			   			// var bitcoinUSB = data.bpi.USD.rate;
+			   			// var	bitcoinEUR = data.bpi.EUR.rate;
+			   			// var	bitcoinBPS = data.bpi.GBP.rate;
+			   			// var	time = data.time.updated;
+
+			   			var ul = document.createElement('ul');
+			   			ul.id = "list";
+			   			ul.classList.add('article-list');
+
+			   			var article = document.getElementById("bitcoinList");
+
+			   			//time
+			   			var li = document.createElement('li');
+			  			li.innerHTML = data.time.updated
+			  			ul.appendChild(li);
+		 
+			  			li.classList.add('article-itemTitle')
+
+			  			//USD
+			  			var li = document.createElement('li');
+			  			li.innerHTML = data.bpi.USD.rate
+			  			ul.appendChild(li);
+
+			  			li.classList.add('article-itemTitle')
+
+			  			//EUR
+			  			var li = document.createElement('li');
+			  			li.innerHTML = data.bpi.EUR.rate
+			  			ul.appendChild(li)
+
+			  			li.classList.add('article-itemTitle')
+
+			  			//BPS
+			  			var li = document.createElement('li')
+			  			li.innerHTML = data.bpi.GBP.rate
+			  			ul.appendChild(li)
+
+			  			li.classList.add('article-itemTitle')
+
+			  			article.appendChild(ul);
+
+			    		// existe el elemento
+			    		} else {
+
+			    		// debugger
+			    		console.log(!(data.bpi.USD.rate === elementoAnterior.bpi.USD.rate &&
+			    		   data.bpi.EUR.rate === elementoAnterior.bpi.EUR.rate &&
+			    		   data.bpi.GBP.rate === elementoAnterior.bpi.GBP.rate))
+			    	
+
+			    		if(!(data.bpi.USD.rate === elementoAnterior.bpi.USD.rate &&
+			    		   data.bpi.EUR.rate === elementoAnterior.bpi.EUR.rate &&
+			    		   data.bpi.GBP.rate === elementoAnterior.bpi.GBP.rate)){
+
+
+							var ul = document.createElement('ul');
+			   				ul.id = "list";
+			   				ul.classList.add('article-list');
+
+			   				var article = document.getElementById("bitcoinList");
+
+			   				//time
+			   				var li = document.createElement('li');
+			  				li.innerHTML = data.time.updated
+			  				ul.appendChild(li);
+		 
+			  				li.classList.add('article-itemTitle')
+
+			  				//USD
+			  				var li = document.createElement('li');
+				  			li.innerHTML = data.bpi.USD.rate
+				  			ul.appendChild(li);
+
+				  			li.classList.add('article-itemTitle')
+
+				  			//EUR
+				  			var li = document.createElement('li');
+				  			li.innerHTML = data.bpi.EUR.rate
+				  			ul.appendChild(li)
+
+				  			li.classList.add('article-itemTitle')
+
+				  			//BPS
+				  			var li = document.createElement('li')
+				  			li.innerHTML = data.bpi.GBP.rate
+				  			ul.appendChild(li)
+
+				  			li.classList.add('article-itemTitle')
+
+				  			article.appendChild(ul);
+				    		};
+			    	}
+			    	elementoAnterior = data; 		
+			    }
+			});
+	});
+	</script>
+</body>
+</html>
